@@ -1,0 +1,14 @@
+import mongoose from 'mongoose';
+
+
+export const connectDB = async () => {
+    try{
+        const {connection} = await mongoose.connect(process.env.MONGO_URI)
+        const url = `${connection.host}:${connection.port}`
+
+        console.log(`Conexión a la base de datos establecida en ${url}`);
+    }catch(error){
+        console.log('Error de conexión a la base de datos', error.message);
+        process.exit(1);
+    }
+}
