@@ -1,12 +1,9 @@
 import { Router } from "express";
-import User from "./models/User";
+import { createAccount } from "./handlers";
 
 const router = Router();
 
-router.post('/auth/register', async (req, res) => {
-    const user = new User(req.body)
-    await user.save()
-})
+router.post('/auth/register', createAccount)
 
 router.get('/', (req, res) => {
     res.send('Hola Mundo / TS')
