@@ -7,7 +7,7 @@ import {toast} from "sonner";
 import api from "../config/Axios";
 
 export default function RegisterView() {
-    const initialValues = {
+    const initialValues : RegisterForm= {
         name: '',
         email: '',
         handle: '',
