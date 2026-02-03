@@ -1,21 +1,35 @@
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import type { ProfileForm, User } from "../types";
+import { updateProfile } from "../api/DevTreeAPI";
+import {toast} from "sonner"
 
 export default function ProfileView() {
 
-      const queryClient = useQueryClient()
-      const data : User = queryClient.getQueryData(['user'])!
+    const queryClient = useQueryClient()
+    const data : User = queryClient.getQueryData(['user'])!
 
-  const { register, handleSubmit, formState: {errors} } = useForm({defaultValues: {
-    handle: data.handle,
-    description: data.description
-  }});
+    const { register, handleSubmit, formState: {errors} } = useForm({defaultValues: {
+        handle: data.handle,
+        description: data.description
+    }});
 
-  const handleUserProfileForm = (formData : ProfileForm) => {
-    console.log(formData)
-  }
+    const updateProfileMutation = useMutation({
+        mutationFn: updateProfile,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            toast.success(data)
+            queryClient.invalidateQueries({queryKey: ['user']})
+        }
+    }) 
+
+    const handleUserProfileForm = (formData : ProfileForm) => {
+        updateProfileMutation.mutate(formData)
+    }
+
 
     return (
         <form 
@@ -32,7 +46,7 @@ export default function ProfileView() {
                     className="border-none bg-slate-100 rounded-lg p-2"
                     placeholder="handle o Nombre de Usuario"
                     {...register('handle', {
-                      required: 'El handle es obligatorio',
+                        required: 'El handle es obligatorio',
                     })}
                 />
 
