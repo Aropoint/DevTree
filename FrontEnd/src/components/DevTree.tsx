@@ -67,7 +67,7 @@ return (
                     <div className="flex justify-end">
                         <Link 
                             className="font-bold text-slate-800 text-center text-2xl"
-                            to={''}
+                            to={`/${data.handle}`}
                             target="_blank"
                             rel="noreferrer noopener"
                         >Visitar Mi Perfil: /{data.handle}</Link>
