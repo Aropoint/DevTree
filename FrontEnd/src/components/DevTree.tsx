@@ -17,7 +17,6 @@ export default function DevTree({data}:DevTreeProps) {
         setEnabledLinks(JSON.parse(data.links).filter((item: SocialNetwork) => item.enabled))
     }, [data])
 
-console.log(enabledLinks)
 return (
     <>
             <header className="bg-slate-800 py-5">
